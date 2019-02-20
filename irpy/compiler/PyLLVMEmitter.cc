@@ -167,9 +167,11 @@ class PyInstVisitor : public llvm::InstVisitor<PyInstVisitor>
         const std::string metalist = metalist_ss.str();
 
         if (i.hasNoSignedWrap())
-            kwargs.push_back({"nsw", "True"});
+            //kwargs.push_back({"nsw", "True"});
+            kwargs.push_back(std::make_pair("nsw", "True"));
         if (i.hasNoUnsignedWrap())
-            kwargs.push_back({"nuw", "True"});
+            //kwargs.push_back({"nuw", "True"});
+            kwargs.push_back(std::make_pair("nuw", "True"));
 
         auto s = genPyCall(fname, args, kwargs);
 
@@ -347,13 +349,13 @@ class PyInstVisitor : public llvm::InstVisitor<PyInstVisitor>
 
         kwargs_t kwargs;
         if (i.hasNoSignedWrap())
-            kwargs.push_back({"nsw", "True"});
+            kwargs.push_back(std::make_pair("nsw", "True"));
         if (i.hasNoUnsignedWrap())
-            kwargs.push_back({"nuw", "True"});
+            kwargs.push_back(std::make_pair("nuw", "True"));
 
         if (const auto *peo = llvm::dyn_cast<llvm::PossiblyExactOperator>(&i))
             if (peo->isExact())
-                kwargs.push_back({"exact", "True"});
+                kwargs.push_back(std::make_pair("exact", "True"));
 
         emitter_.line(dst + " = " +
                       genPyCall(opstring, {
@@ -528,7 +530,7 @@ class PyInstVisitor : public llvm::InstVisitor<PyInstVisitor>
     {
         kwargs_t kwargs;
         if (i.isInBounds())
-            kwargs.push_back({"inbounds", "True"});
+            kwargs.push_back(std::make_pair("inbounds", "True"));
         genPyCallFromInstruction(true, "get_element_ptr", i, kwargs);
     }
 

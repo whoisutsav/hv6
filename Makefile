@@ -13,6 +13,8 @@ BOCHS_CPU    ?= broadwell_ult
 IOMMU        ?= intel-iommu
 USE_LL       ?= 0
 
+#CXX = clang++
+
 SRCARCH      := $(ARCH)
 ifeq ($(ARCH),x86_64)
 SRCARCH      := x86
